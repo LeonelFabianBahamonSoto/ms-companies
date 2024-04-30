@@ -1,32 +1,49 @@
 spring:
   application:
     name: companies-crud
-  datasource:
-    url: jdbc:postgresql://localhost:5432/companies
-    username: fabian
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-    hikari.connection-timeout: 20000
-    hikari.maximum-pool-size: 5
+  profiles:
+    active: dev
+  cloud:
+    config:
+      # PARA ENTORNO DE PRODUCCION
+#      uri: http://config-server.ns-colombo.svc.cluster.local:8888
+      # PARA ENTORNO DE DESARROLLO
+      uri: http://localhost:8888
+      fail-fast: true
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
 
-server:
-  port: 8081
-  servlet:
-    context-path: /companies
+# spring:
+#   application:
+#     name: companies-crud
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/companies
+#     username: fabian
+#     password: postgres
+#     driver-class-name: org.postgresql.Driver
+#     hikari.connection-timeout: 20000
+#     hikari.maximum-pool-size: 5
 
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-      type:
-        descriptor:
-          sql:
-            BasicBinder: TRACE
+# server:
+#   port: 8081
+#   servlet:
+#     context-path: /companies
 
-eureka:
-  instance:
-    instance-id: "${spring.application.name}:${random.value}"
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+# logging:
+#   level:
+#     org:
+#       hibernate:
+#         SQL: DEBUG
+#       type:
+#         descriptor:
+#           sql:
+#             BasicBinder: TRACE
+
+# eureka:
+#   instance:
+#     instance-id: "${spring.application.name}:${random.value}"
+#   client:
+#     service-url:
+#       defaultZone: http://localhost:8761/eureka/
